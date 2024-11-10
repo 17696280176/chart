@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Pie Chart Animation</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 600px; height: 400px;"></div>
+
+    <script>
+        // 初始化图表实例
+        var chart = echarts.init(document.getElementById('main'));
+
+        // 定义每年的数据
+        var data = [
+            { year: '2011', values: [{ name: 'A', value: 3.6 }, { name: 'B+C+D', value: 26.0 }, { name: 'services sector', value: 70.4 }] },
+            { year: '2014', values: [{ name: 'A', value: 3.9 }, { name: 'B+C+D', value: 24.8 }, { name: 'services sector', value: 71.3 }] },
+            { year: '2015', values: [{ name: 'A', value: 4.3 }, { name: 'B+C+D', value: 26.3 }, { name: 'services sector', value: 69.3 }] },
+            { year: '2016', values: [{ name: 'A', value: 4.3 }, { name: 'B+C+D', value: 25.6 }, { name: 'services sector', value: 70.2 }] },
+            { year: '2017', values: [{ name: 'A', value: 3.9 }, { name: 'B+C+D', value: 27.5 }, { name: 'services sector', value: 68.5 }] },
+            { year: '2018', values: [{ name: 'A', value: 3.8 }, { name: 'B+C+D', value: 30.4 }, { name: 'services sector', value: 65.8 }] },
+            { year: '2019', values: [{ name: 'A', value: 3.9 }, { name: 'B+C+D', value: 29.9 }, { name: 'services sector', value: 66.2 }] },
+            { year: '2020', values: [{ name: 'A', value: 4.4 }, { name: 'B+C+D', value: 27.0 }, { name: 'services sector', value: 68.5 }] },
+            { year: '2021', values: [{ name: 'A', value: 4.3 }, { name: 'B+C+D', value: 29.9 }, { name: 'services sector', value: 65.8 }] },
+            { year: '2022', values: [{ name: 'A', value: 4.3 }, { name: 'B+C+D', value: 30.5 }, { name: 'services sector', value: 65.2 }] }
+        ];
+
+        // 初始配置
+        var option = {
+            title: {
+                text: 'Economic Size Industry Distribution - 2011',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Economic Size Industry Distribution',
+                    type: 'pie',
+                    radius: '50%',
+                    data: data[0].values,
+                    label: {
+                        formatter: '{b}: {c} ({d}%)'
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        // 设置初始配置
+        chart.setOption(option);
+
+        // 当前年份的索引
+        var currentIndex = 0;
+
+        // 更新图表的函数
+        function updateChart() {
+            currentIndex = (currentIndex + 1) % data.length;
+            chart.setOption({
+                title: {
+                    text: 'Economic Size Industry Distribution - ' + data[currentIndex].year
+                },
+                series: [{
+                    data: data[currentIndex].values
+                }]
+            });
+        }
+
+        // 每隔1.5秒更新一次图表
+        setInterval(updateChart, 1500);
+    </script>
+</body>
+</html>
